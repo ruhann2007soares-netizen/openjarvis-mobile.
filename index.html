@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#10131b"><meta name="description" content="OpenJarvis Mobile — assistente pessoal híbrido">
+  <link rel="manifest" href="manifest.webmanifest"><link rel="icon" href="icon.svg">
+  <link rel="stylesheet" href="style.css"><title>OpenJarvis Mobile</title>
+</head>
+<body>
+<div class="app">
+  <aside class="sidebar" id="sidebar">
+    <div class="brand"><div class="logo">✳</div><div><b>OpenJarvis</b><small> MOBILE</small></div></div>
+    <button class="new-chat" id="newChat">＋ Nova conversa</button>
+    <div class="side-label">ESPAÇO DE TRABALHO</div>
+    <button class="nav active" data-view="chat">◉ <span>Conversar</span></button>
+    <button class="nav" data-view="agents">✧ <span>Agentes</span></button>
+    <button class="nav" data-view="memory">▤ <span>Memória</span></button>
+    <button class="nav" data-view="files">▧ <span>Arquivos</span></button>
+    <button class="nav" data-view="automation">◷ <span>Automações</span></button>
+    <div class="sidebar-bottom"><div class="connection" id="connection"><i></i> Não conectado</div><button class="nav" data-view="settings">⚙ <span>Configurações</span></button></div>
+  </aside>
+  <main>
+    <header><button class="icon-btn mobile-menu" id="menuBtn">☰</button><div class="header-title" id="headerTitle">Assistente</div><span class="model-pill" id="modelPill">Híbrido</span><button class="icon-btn" id="settingsBtn" aria-label="Configurações">⚙</button></header>
+    <section class="view active" id="view-chat">
+      <div class="welcome" id="welcome"><div class="orb">✳</div><p class="eyebrow">SEU ASSISTENTE PESSOAL</p><h1>O que vamos<br><em>construir hoje?</em></h1><p class="muted">Converse, pesquise, organize arquivos e delegue tarefas aos seus agentes.</p>
+        <div class="suggestions"><button data-prompt="Explique como você pode me ajudar e quais recursos estão conectados.">✧ Conhecer recursos</button><button data-prompt="Me ajude a planejar meu dia.">◷ Planejar meu dia</button><button data-prompt="Pesquise e explique um assunto com fontes.">⌕ Pesquisa aprofundada</button></div>
+      </div>
+      <div class="messages" id="messages" aria-live="polite"></div>
+      <div class="composer-wrap"><div class="attached" id="attached"></div><div class="composer">
+        <textarea id="prompt" rows="1" placeholder="Mensagem para o OpenJarvis..." aria-label="Mensagem"></textarea>
+        <div class="composer-tools"><div><button class="tool-btn" id="fileBtn" title="Anexar arquivo">＋</button><button class="tool-btn" id="voiceBtn" title="Falar">♩</button><span class="mode-label" id="modeLabel">Agente: orquestrador</span></div><button class="send" id="sendBtn" title="Enviar">↑</button></div>
+      </div><div class="disclaimer">O assistente pode cometer erros. Revise informações e ações importantes.</div></div>
+      <input type="file" id="fileInput" hidden multiple accept=".txt,.md,.csv,.json,.log">
+    </section>
+    <section class="view page" id="view-settings"><div class="page-head"><p class="eyebrow">CONFIGURAÇÃO</p><h1>Conectar seu Jarvis</h1><p class="muted">Conecte este aplicativo ao servidor OpenJarvis. O servidor pode estar no seu computador ou na nuvem.</p></div>
+      <label>Endereço do servidor<input id="apiUrl" placeholder="https://seu-servidor.exemplo.com" inputmode="url"></label>
+      <label>Chave de acesso (se configurada)<input id="apiKey" type="password" placeholder="Token do servidor"></label>
+      <label>Modelo<input id="model" placeholder="ex.: qwen3:8b"></label>
+      <label>Agente padrão<select id="agent"><option value="orchestrator">Orquestrador</option><option value="simple">Simples</option><option value="react">ReAct</option><option value="openhands">OpenHands</option></select></label>
+      <button class="primary" id="saveSettings">Salvar conexão</button><button class="secondary" id="testConnection">Testar conexão</button><p id="settingsStatus" class="status"></p>
+      <div class="notice"><b>Privacidade:</b> use HTTPS quando acessar pela internet. Não exponha o servidor sem autenticação. A chave fica armazenada neste navegador; evite usar dispositivos compartilhados.</div>
+    </section>
+    <section class="view page" id="view-agents"><div class="page-head"><p class="eyebrow">EXECUÇÃO ASSISTIDA</p><h1>Agentes</h1><p class="muted">Os agentes são executados pelo servidor OpenJarvis conectado.</p></div><div class="feature-card"><b>Orquestrador</b><p>Decompõe pedidos e escolhe ferramentas disponíveis no servidor.</p><span class="tag">Disponível via chat</span></div><div class="feature-card"><b>Pesquisa aprofundada</b><p>Ative o agente e as ferramentas de pesquisa na configuração do servidor.</p><span class="tag">Depende do servidor</span></div><div class="feature-card"><b>Agentes contínuos</b><p>Monitores e agentes persistentes precisam do scheduler do OpenJarvis em execução.</p><span class="tag">Configuração necessária</span></div></section>
+    <section class="view page" id="view-memory"><div class="page-head"><p class="eyebrow">CONTEXTO PERSISTENTE</p><h1>Memória</h1><p class="muted">Notas locais guardadas neste aparelho. A memória nativa do OpenJarvis é gerenciada pelo servidor.</p></div><form id="memoryForm"><textarea id="memoryText" placeholder="Escreva uma informação que deseja guardar..." rows="3"></textarea><button class="primary">Guardar nota</button></form><div id="memoryList"></div></section>
+    <section class="view page" id="view-files"><div class="page-head"><p class="eyebrow">BASE DE CONHECIMENTO</p><h1>Arquivos</h1><p class="muted">Anexe arquivos de texto à conversa. Nesta primeira versão, TXT, MD, CSV, JSON e LOG são lidos no aparelho.</p></div><button class="primary" id="pageFileBtn">＋ Selecionar arquivos</button><div id="fileList"></div></section>
+    <section class="view page" id="view-automation"><div class="page-head"><p class="eyebrow">TAREFAS PROGRAMADAS</p><h1>Automações</h1><p class="muted">A execução automática exige o scheduler do OpenJarvis ativo no servidor. Esta tela organiza o escopo da próxima integração.</p></div><div class="feature-card"><b>Monitoramento</b><p>Agentes que verificam fontes e atualizações continuamente.</p></div><div class="feature-card"><b>Rotinas</b><p>Agendamentos diários e semanais com confirmação antes de ações externas.</p></div><div class="notice">Não há tarefas em execução nesta versão inicial. Nenhuma automação será criada sem configuração explícita.</div></section>
+  </main>
+</div><script src="app.js"></script></body></html>
